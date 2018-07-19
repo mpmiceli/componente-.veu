@@ -1,20 +1,17 @@
 <template>
   <div id="app" class="container">
     <div class="jumbotron">
-       <formulario :multiple="true" :readonly="true" v-on:changed="viewnewdata" v-bind:TiposCobertura="TiposCobertura"></formulario>
-       <readonly :multiple="true" :readonly="true" v-on:changed="viewnewdata" v-bind:TiposCobertura="TiposCobertura"></readonly>
+       <arreglo :multiple="true" :readonly="true" v-on:changed="viewnewdata" v-bind:TiposCobertura="TiposCobertura"></arreglo>
     </div>
  </div>
 </template>
 
 <script>
-import formulario from './Formulario.vue'
-import readonly from './ReadOnly.vue'
+import arreglo from './Formulario.vue'
 
   export default {
     components : {
-      formulario,
-      readonly
+      arreglo
     },
     data () {
       return {
@@ -55,3 +52,4 @@ import readonly from './ReadOnly.vue'
 <style>
 
 </style>
+

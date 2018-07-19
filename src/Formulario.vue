@@ -1,7 +1,7 @@
 <template>
   <div>
-    <form v-if=" multiple" >
-       <ul v-for="tipos in TiposCompletos">
+    <form v-if="multiple && !readonly" >
+       <ul v-for="tipos in TiposCompletos" :key="tipos">
           <input type="checkbox" id="info" v-bind:value="tipos.data" v-model="tipos.checked">
               <label for="tipos.data"> {{tipos.data}} </label>
               <div v-if='tipos.checked'>
@@ -11,8 +11,8 @@
     </form>
 
 
-    <form v-else >
-       <ul v-for="(tipos, indice) in TiposCompletos">
+    <form v-else-if="!multiple && !readonly" >
+       <ul v-for="tipos in TiposCompletos" >
           <input type="radio" id="info" name="datos" v-bind:value="tipos.data" v-model="tiporadio">
               <label for="tipos.data"> {{tipos.data}} </label>
               <div v-if='tiporadio === tipos.data'>
@@ -21,7 +21,24 @@
        </ul>
     </form>
 
-
+    <form v-if="multiple && readonly">
+       <ul v-for="tipos in TiposCompletos" >
+         <div v-if='tipos.dato>0 && tipos.dato!=null'>
+          <label for="tipos.data"> {{tipos.data}} </label>
+          <label for="tipos.dato"> {{tipos.dato}} </label>
+         </div>
+       </ul>
+    </form>
+    <form v-else-if="!multiple && readonly"> 
+        <ul v-for="tipos in TiposCompletos" >
+         <div v-if='tipos.dato>0 && tipos.dato!=null'>
+           <div v-if='tiporadio === tipos.data'>
+            <label for="tipos.data"> {{tipos.data}} </label>
+            <label for="tipos.dato"> {{tipos.dato}} </label>
+          </div>
+         </div>
+       </ul>
+    </form>
   </div>
 </template>
 
@@ -30,11 +47,15 @@
   export default {
     props : [
       'TiposCobertura',
-      'multiple'
+      'multiple',
+      'readonly'
     ],
     data () {
       return {
         TiposCompletos: [
+        
+        ],
+        Oferta: [
         
         ],
         tiporadio: null,
@@ -44,7 +65,8 @@
       agregar(){
         this.TiposCobertura.forEach(element => {
               this.TiposCompletos.push({
-              data : element.texto,
+              data : element.texto,  
+              valor : element.valor,
               dato : '',
               checked : false,
             })
@@ -56,7 +78,7 @@
           this.TiposCompletos.forEach(element => {
             if(element.checked == true && element.dato>0 && element.dato!=null){
                 TiposFinales.push({
-                data : element.data,
+                valor : element.valor,
                 dato : element.dato,
               })
             }
@@ -68,7 +90,7 @@
             if(element.checked != null && element.dato>0 && element.dato!=null){
                 if(this.tiporadio === element.data){
                 TiposFinales.push({
-                data : element.data,
+                valor : element.valor,
                 dato : element.dato,
                 })
               }
