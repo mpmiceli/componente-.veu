@@ -1,11 +1,11 @@
 <template>
   <div>
-    <form v-if=" !multiple" >
+    <form v-if=" multiple" >
        <ul v-for="tipos in TiposCompletos">
           <input type="checkbox" id="info" v-bind:value="tipos.data" v-model="tipos.checked">
               <label for="tipos.data"> {{tipos.data}} </label>
               <div v-if='tipos.checked'>
-                <input type="text" class="form-control" placeholder="" value="Cubre hasta : $" v-model='tipos.dato'>
+                <input type="text" class="form-control" placeholder="" value="" v-model='tipos.dato'>
               </div> 
        </ul>
     </form>
@@ -16,7 +16,7 @@
           <input type="radio" id="info" name="datos" v-bind:value="tipos.data" v-model="tiporadio">
               <label for="tipos.data"> {{tipos.data}} </label>
               <div v-if='tiporadio === tipos.data'>
-                <input type="text" class="form-control" placeholder="" value="Cubre hasta : $" v-model='tipos.dato'>
+                <input type="text" class="form-control" placeholder="" value="" v-model='tipos.dato'>
               </div> 
        </ul>
     </form>
@@ -52,14 +52,26 @@
       },
       agregarFinal(){
         var TiposFinales = [];
-        this.TiposCompletos.forEach(element => {
-          if(element.checked == true && element.dato>0 && element.dato!=null){
-              TiposFinales.push({
-              data : element.data,
-              dato : element.dato,
-            })
-          }
-        });
+        if(this.multiple){
+          this.TiposCompletos.forEach(element => {
+            if(element.checked == true && element.dato>0 && element.dato!=null){
+                TiposFinales.push({
+                data : element.data,
+                dato : element.dato,
+              })
+            }
+          });
+        }
+        else {
+          this.TiposCompletos.forEach(element => {
+            if(element.checked != null && element.dato>0 && element.dato!=null){
+                TiposFinales.push({
+                data : element.data,
+                dato : element.dato,
+              })
+            }
+          });
+        }
         return TiposFinales;
       }
     },
