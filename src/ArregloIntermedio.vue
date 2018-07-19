@@ -12,7 +12,7 @@
 
 
     <form v-else >
-       <ul v-for="tipos in TiposCompletos">
+       <ul v-for="(tipos, indice) in TiposCompletos">
           <input type="radio" id="info" name="datos" v-bind:value="tipos.data" v-model="tiporadio">
               <label for="tipos.data"> {{tipos.data}} </label>
               <div v-if='tiporadio === tipos.data'>
@@ -63,12 +63,15 @@
           });
         }
         else {
+          
           this.TiposCompletos.forEach(element => {
             if(element.checked != null && element.dato>0 && element.dato!=null){
+                if(this.tiporadio === element.data){
                 TiposFinales.push({
                 data : element.data,
                 dato : element.dato,
-              })
+                })
+              }
             }
           });
         }
